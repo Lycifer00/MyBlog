@@ -40,24 +40,39 @@ public class BlogController {
         blogService.save(blog);
         ModelAndView modelAndView = new ModelAndView("/blog/create");
         modelAndView.addObject("blog", new Blog());
-        modelAndView.addObject("message", "Thing created successfully");
+        modelAndView.addObject("message", "Blog created successfully");
         return modelAndView;
     }
 
     @GetMapping("/view-content/{id}")
-    public ModelAndView viewProvince(@PathVariable("id") Long id){
+    public ModelAndView viewProvince(@PathVariable("id") Long id) {
         Blog blog = blogService.findById(id);
         ModelAndView modelAndView = new ModelAndView("/blog/view");
         modelAndView.addObject("blog", blog);
         return modelAndView;
     }
 
+    @GetMapping("/edit-blog/{id}")
+    public ModelAndView showEditForm(@PathVariable Long id) {
+        Blog blog = blogService.findById(id);
+        if (blog != null) {
+            ModelAndView modelAndView = new ModelAndView("/blog/edit");
+            modelAndView.addObject("blog", blog);
+            return modelAndView;
+
+        } else {
+            return new ModelAndView("/error.404");
+        }
+    }
+
+    @PostMapping("/edit-blog")
+    public ModelAndView updateCustomer(@ModelAttribute("blog") Blog blog) {
+        blogService.save(blog);
+        ModelAndView modelAndView = new ModelAndView("/blog/edit");
+        modelAndView.addObject("blog", blog);
+        modelAndView.addObject("message", "Blog updated successfully");
+        return modelAndView;
+    }
 }
-
-
-//    @GetMapping("/edit-blog/{id}")
-//    public ModelAndView showEditForm(@PathVariable Long id){
-//        Blog blog = BlogService.
-//    }
 
 
